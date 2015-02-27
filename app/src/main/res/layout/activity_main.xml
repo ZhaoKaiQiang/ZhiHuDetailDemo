@@ -1,0 +1,73 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@android:color/white"
+    >
+
+
+    <com.socks.zhihudetail.MyScrollView
+        android:id="@+id/scroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="@string/hello_world"/>
+
+    </com.socks.zhihudetail.MyScrollView>
+
+
+    <FrameLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:id="@+id/img_author"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_author"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:text="为什么美国有那么多肌肉极其强大的肌肉男？"
+            android:textSize="18sp"
+            android:background="#DBDBDB"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/darker_gray"
+            />
+
+        <ImageView
+            android:id="@+id/img_bar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_actionbar"/>
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/img_tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_gravity="bottom"
+        android:src="@drawable/bg_bottom"/>
+
+
+</FrameLayout>
