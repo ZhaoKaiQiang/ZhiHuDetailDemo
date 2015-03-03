@@ -1,9 +1,10 @@
 package com.socks.zhihudetail;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -18,7 +19,7 @@ import android.widget.TextView;
  * 仿知乎回答详情页
  *
  * @author ZhaoKaiQiang
- * http://blog.csdn.net/zhaokaiqiang1992
+ *         http://blog.csdn.net/zhaokaiqiang1992
  */
 public class MainActivity extends ActionBarActivity implements MyScrollView.BottomListener,
 		MyScrollView.onScrollListener {
@@ -98,6 +99,7 @@ public class MainActivity extends ActionBarActivity implements MyScrollView.Bott
 							}
 						}
 
+						lastY = event.getY();
 						break;
 				}
 
@@ -130,12 +132,14 @@ public class MainActivity extends ActionBarActivity implements MyScrollView.Bott
 	 */
 	private void showTools() {
 
-		ObjectAnimator anim = ObjectAnimator.ofFloat(img_tools, "y", img_tools.getY(),
-				img_tools.getY() - img_tools.getHeight());
+		int startY = getWindow().getDecorView()
+				.getHeight() - getStatusHeight(this);
+		ObjectAnimator anim = ObjectAnimator.ofFloat(img_tools, "y", startY,
+				startY - img_tools.getHeight());
 		anim.setDuration(TIME_ANIMATION);
 		anim.start();
-
 		isToolsHide = false;
+
 	}
 
 	/**
@@ -143,11 +147,12 @@ public class MainActivity extends ActionBarActivity implements MyScrollView.Bott
 	 */
 	private void hideTools() {
 
-		ObjectAnimator anim = ObjectAnimator.ofFloat(img_tools, "y", img_tools.getY(),
-				img_tools.getY() + img_tools.getHeight());
+		int startY = getWindow().getDecorView()
+				.getHeight() - getStatusHeight(this);
+		ObjectAnimator anim = ObjectAnimator.ofFloat(img_tools, "y", startY - img_tools.getHeight(),
+				startY);
 		anim.setDuration(TIME_ANIMATION);
 		anim.start();
-
 		isToolsHide = true;
 
 	}
@@ -212,10 +217,8 @@ public class MainActivity extends ActionBarActivity implements MyScrollView.Bott
 
 		if (t <= dp2px(TOP_DISTANCE_Y) && isTopHide && isAnimationFinish) {
 			showTop();
-			Log.d(TAG, "显示");
 		} else if (t > dp2px(TOP_DISTANCE_Y) && !isTopHide && isAnimationFinish) {
 			hideTop();
-			Log.d(TAG, "隐藏");
 		}
 	}
 
@@ -223,4 +226,25 @@ public class MainActivity extends ActionBarActivity implements MyScrollView.Bott
 		float scale = getResources().getDisplayMetrics().density;
 		return (int) (dp * scale + 0.5f);
 	}
+
+
+	public static int getStatusHeight(Activity activity) {
+		int statusHeight = 0;
+		Rect localRect = new Rect();
+		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
+		statusHeight = localRect.top;
+		if (0 == statusHeight) {
+			Class<?> localClass;
+			try {
+				localClass = Class.forName("com.android.internal.R$dimen");
+				Object localObject = localClass.newInstance();
+				int i5 = Integer.parseInt(localClass.getField("status_bar_height").get(localObject).toString());
+				statusHeight = activity.getResources().getDimensionPixelSize(i5);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return statusHeight;
+	}
+
 }
